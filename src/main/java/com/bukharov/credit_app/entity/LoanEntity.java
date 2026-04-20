@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,4 +39,8 @@ public class LoanEntity {
 
 	@Column(name = "purpose", length = 500)
 	String purpose;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status", nullable = false)
+	LoanStatus status;
 }
