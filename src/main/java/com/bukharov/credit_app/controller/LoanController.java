@@ -6,6 +6,7 @@ import com.bukharov.credit_app.dto.LoanRequest;
 import com.bukharov.credit_app.dto.LoanResponse;
 import com.bukharov.credit_app.service.LoanService;
 import jakarta.websocket.server.PathParam;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/loan")
+@AllArgsConstructor
 public class LoanController {
 
 	private LoanService loanService;

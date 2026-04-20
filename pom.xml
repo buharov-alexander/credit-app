@@ -13,23 +13,11 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
 	<properties>
 		<java.version>21</java.version>
 		<lombok.version>1.18.42</lombok.version>
 		<h2.version>2.2.224</h2.version>
+		<openapi.version>3.0.3</openapi.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -51,6 +39,12 @@
 			<artifactId>lombok</artifactId>
 			<version>${lombok.version}</version>
 			<scope>compile</scope>
+		</dependency>
+		<!--OpenAPI-->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>${openapi.version}</version>
 		</dependency>
 
 		<dependency>
