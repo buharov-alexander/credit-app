@@ -34,7 +34,7 @@ public class OutboxPublisher {
 	}
 
 	private void publishEvent(OutboxEvent event) {
-		log.info("Publish event: {}", event.getId());
+		log.info("Publish event: {}", event.getPayload());
 	}
 
 	@Scheduled(cron="0 0 2 * * *")

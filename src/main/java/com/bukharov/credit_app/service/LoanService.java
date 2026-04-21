@@ -15,6 +15,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,6 +70,7 @@ public class LoanService {
 	}
 
 	@Transactional
+	@Cacheable(value = "loans", key = "#id")
 	public LoanResponse getLoanApplication(UUID id) {
 		Optional<LoanEntity> entityOpt = loanRepository.findById(id);
 		if (entityOpt.isEmpty()) {
@@ -77,6 +80,7 @@ public class LoanService {
 	}
 
 	@Transactional
+	@CacheEvict(value = "loans", key = "#id")
 	public LoanResponse cancelLoanApplication(UUID id) {
 		var entityOpt = loanRepository.findById(id);
 		if (entityOpt.isEmpty()) {
