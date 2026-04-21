@@ -28,6 +28,9 @@ public class LoanEntity {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	UUID id;
 
+	@Column(name = "idempotencyKey", nullable = false)
+	String idempotencyKey;
+
 	@Column(name = "client_id", nullable = false)
 	UUID clientId;
 

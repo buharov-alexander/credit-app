@@ -28,8 +28,16 @@ public class LoanService {
 	private final ObjectMapper objectMapper;
 
 	@Transactional
-	public LoanResponse createLoanApplication(LoanRequest request) {
+	public LoanResponse createLoanApplication(LoanRequest request, String idempotencyKey) {
+		var existing = loanRepository.findByIdempotencyKey(idempotencyKey);
+		if (existing.isPresent()) {
+			log.info("Idempotent request detected for key={}, returning existing applicationId={}",
+					idempotencyKey, existing.get().getId());
+			return new LoanResponse(existing.get());
+		}
+
 		LoanEntity entity = LoanEntity.builder()
+				.idempotencyKey(idempotencyKey)
 				.clientId(request.clientId())
 				.amount(request.amount())
 				.termMonths(request.termMonths())
@@ -38,9 +46,11 @@ public class LoanService {
 				.build();
 		entity = loanRepository.save(entity);
 		log.info("Create Loan Application: {}", entity.getId());
+
 		OutboxEvent outboxEvent = createOutboxEvent(entity);
 		outboxEvent = outboxEventRepository.save(outboxEvent);
 		log.info("Create event: {} {}", outboxEvent.getId(), outboxEvent.getEventType());
+
 		return new LoanResponse(entity);
 	}
 
