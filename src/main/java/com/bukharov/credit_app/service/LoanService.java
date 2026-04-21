@@ -69,10 +69,21 @@ public class LoanService {
 
 	@Transactional
 	public LoanResponse getLoanApplication(UUID id) {
-		Optional<LoanEntity> entity = loanRepository.findById(id);
-		if (entity.isEmpty()) {
+		Optional<LoanEntity> entityOpt = loanRepository.findById(id);
+		if (entityOpt.isEmpty()) {
 			throw new IllegalArgumentException("Loan Application is not found");
 		}
-		return new LoanResponse(entity.get());
+		return new LoanResponse(entityOpt.get());
+	}
+
+	@Transactional
+	public LoanResponse cancelLoanApplication(UUID id) {
+		var entityOpt = loanRepository.findById(id);
+		if (entityOpt.isEmpty()) {
+			throw new IllegalArgumentException("Loan Application is not found");
+		}
+		LoanEntity loanEntity = entityOpt.get();
+		loanEntity.setStatus(LoanStatus.CANCELLED);
+		return new LoanResponse(loanRepository.save(loanEntity));
 	}
 }
