@@ -11,10 +11,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "loans")
@@ -31,6 +33,10 @@ public class LoanEntity {
 	@Column(name = "idempotencyKey", nullable = false)
 	String idempotencyKey;
 
+	@Version
+	@Column(name = "version")
+	private Long version;
+
 	@Column(name = "client_id", nullable = false)
 	UUID clientId;
 
@@ -43,6 +49,7 @@ public class LoanEntity {
 	@Column(name = "purpose", length = 500)
 	String purpose;
 
+	@Setter
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status", nullable = false)
 	LoanStatus status;
