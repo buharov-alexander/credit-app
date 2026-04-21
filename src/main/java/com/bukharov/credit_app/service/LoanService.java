@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class LoanService {
 
-	private final LoanRepository repository;
+	private final LoanRepository loanRepository;
 	private final OutboxEventRepository outboxEventRepository;
 	private final ObjectMapper objectMapper;
 
@@ -36,9 +36,11 @@ public class LoanService {
 				.purpose(request.purpose())
 				.status(LoanStatus.DRAFT)
 				.build();
-		entity = repository.save(entity);
+		entity = loanRepository.save(entity);
+		log.info("Create Loan Application: {}", entity.getId());
 		OutboxEvent outboxEvent = createOutboxEvent(entity);
-		outboxEventRepository.save(outboxEvent);
+		outboxEvent = outboxEventRepository.save(outboxEvent);
+		log.info("Create event: {} {}", outboxEvent.getId(), outboxEvent.getEventType());
 		return new LoanResponse(entity);
 	}
 
@@ -57,7 +59,7 @@ public class LoanService {
 
 	@Transactional
 	public LoanResponse getLoanApplication(UUID id) {
-		Optional<LoanEntity> entity = repository.findById(id);
+		Optional<LoanEntity> entity = loanRepository.findById(id);
 		if (entity.isEmpty()) {
 			throw new IllegalArgumentException("Loan Application is not found");
 		}

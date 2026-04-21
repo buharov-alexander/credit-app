@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "outbox_events")
@@ -37,7 +38,13 @@ public class OutboxEvent {
 	@Column(name = "payload", nullable = false, columnDefinition = "TEXT")
 	private String payload;
 
+	@Column(name = "published", nullable = false)
+	@Builder.Default
+	@Setter
+	private boolean published = false;
+
 	@Column(name = "retry_count")
 	@Builder.Default
+	@Setter
 	private int retryCount = 0;
 }
