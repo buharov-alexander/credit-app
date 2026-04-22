@@ -13,6 +13,10 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     properties.format_sql: true
+  security:
+    user:
+      name: admin
+      password: admin
 logging:
   level:
     org.hibernate.SQL: DEBUG
